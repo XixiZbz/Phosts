@@ -81,6 +81,7 @@ def download_and_process(timeout, count):
         try:
             response = urllib2.urlopen(source, timeout=5)
         except:
+            print 'fuck connot open source'
             response = urllib2.urlopen(mirror)
 
         # check ping result
@@ -92,19 +93,15 @@ def download_and_process(timeout, count):
         regex = re.compile(r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b')
         print 'parse ip to testing...'
         for line in response:
-            if start.lower() in line.lower():
-                process = True
+            if '127.0.0.1' in line or '::1' in line:
+                hosts += '# %s' % line
+                continue
 
-            if process:
-                if '127.0.0.1' in line or '::1' in line:
-                    hosts += '# %s' % line
-                    continue
-
-                candidates = regex.search(line)
-                if candidates:
-                    ip = candidates.group()
-                    inputs.add(ip)
-                hosts += line
+            candidates = regex.search(line)
+            if candidates:
+                ip = candidates.group()
+                inputs.add(ip)
+            hosts += line
 
         print 'ping testing...'
         args = ((ip, timeout, count) for ip in inputs)
