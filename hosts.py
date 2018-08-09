@@ -54,7 +54,7 @@ def start_process():
 def download_and_process(timeout, count):
     check_dict = {}
     inputs = set()
-    source = 'https://raw.githubusercontent.com/racaljk/hosts/master/hosts'
+    source = 'https://raw.githubusercontent.com/XixiZbz/hosts/master/host'
     mirror = 'https://coding.net/u/scaffrey/p/hosts/git/raw/master/hosts'
     target = '/private/etc/hosts' if platform.system().lower() == 'darwin'\
         else '/etc/hosts'
